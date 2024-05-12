@@ -25,9 +25,9 @@ export interface ICustomer {
 }
 
 export interface IOrderData extends ICustomer {
+  customerInfo: ICustomer;
   addCard(item: IProduct): void;
   deleteCard(id: string): void;
-  customerInfo: ICustomer;
   }
 
 export interface ISuccessData {
