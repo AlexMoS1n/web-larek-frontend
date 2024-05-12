@@ -55,7 +55,7 @@ yarn build
 
 ### UML схема
 
-![MVP Архитектура приложения](https://github.com/AlexMoS1n/web-larek-frontend.git)
+![MVP Архитектура приложения](https://github.com/AlexMoS1n/web-larek-frontend/blob/main/README-UML.png)
 
 ### Базовый код
 
