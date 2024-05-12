@@ -25,8 +25,9 @@ export interface ICustomer {
 }
 
 export interface IOrderData extends ICustomer {
-  getCustomerInfo(): ICustomer;
-  setCustomerInfo(userData: ICustomer): void;
+  addCard(item: IProduct): void;
+  deleteCard(id: string): void;
+  customerInfo: ICustomer;
   }
 
 export interface ISuccessData {
@@ -47,7 +48,6 @@ export interface IModal {
 export interface IForm {
   valid: boolean;
   textError: string;
-  form: HTMLFormElement;
   clear(): void;
 }
 
@@ -65,7 +65,6 @@ export interface ICardsCatalog {
 
 export interface ICardBasket {
   card: HTMLElement;
-  delCard(): void;
 }
 
 export interface ICardBasketConstructor {
