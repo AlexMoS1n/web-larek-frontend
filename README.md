@@ -91,49 +91,69 @@ yarn build
 
 ### Слой данных - Model
 
-#### Класс ProductsData
-Класс отвечает за хранение и логику работы с данными товаров.
-
+#### Класс Model 
+Абстрактный класс Model служит шаблоном для классов слоя данных 
 Поля:
-- `protected _products: IProduct[]` - массив объектов товаров
 - `protected events: IEvents` - объект класса `EventEmitter` для инициации событий при изменении данных.
 
 Параметры в конструкторе:
 - `events: IEvents` - объект класса `EventEmitter` для инициации событий при изменении данных.
 
+#### Класс ProductsData
+Наследуется от класса Model. Класс отвечает за хранение и логику работы с данными товаров.
+
+Поля:
+- `protected _products: IProduct[]` - массив объектов товаров.
+
+Параметры в конструкторе:
+- параметры `Model`. 
+
 Методы, геттеры и сеттеры:
-- `addProduct(product: IProduct): void` - добавляет объект продукта в массив _products
-- `getProduct(productId: string): IProduct` - возвращает объект товара по его id
-- `set products(value: IProduct[]): void` - записывает массив продуктов
-- `get products(): IProduct[]` - возвращает массив продуктов.
+- `set products(value: IProduct[]): void` - записывает массив продуктов, добавленных в корзину
+- `get products(): IProduct[]` - возвращает массив продуктов, добавленных в корзину
+- `getProduct(id: string): IProduct` - находит товар по id и возвращает его.
+
+#### Класс BasketData
+Наследуется от класса Model. Класс отвечает за хранение и логику товаров, добавленных покупателем в корзину
+
+Поля:
+- `protected _purchases: IProduct[]` - массив добавленных товаров в корзине покупателя.
+
+Параметры в конструкторе:
+- параметры `Model`. 
+
+Методы, геттеры и сеттеры:
+- `get purchases(): IProduct[]` - получить массив добавленных товаров в корзину (_purchases)
+- `addPurchase(value: IProduct): void` - добавить товар в массив _purchases
+- `deletePurchase(id: string): void` - удалить товар из массива _purchases
+- `getQuantity(): number` - получить общее количество добавленных товаров в корзину
+- `getTotal(): number` - получить общую сумму всех товаров, добавленных в корзину
+- `getIdList(): string[]` - получить список id товаров добавленных в корзину (нужен для post запроса при оформлении заказа)
+- `clear(): void` - очистка корзины (нужна после успешно оформленного заказа).
 
 #### Класс OrderData
-Класс отвечает за хранение и логику данных о покупателе в оформлении заказа.  
+Наследут класс Model. Класс отвечает за хранение и логику данных при оформлении заказа в корзине.  
 
 Поля:
 - `protected _payment: TPayment` - способ оплаты
-- `protected _address: string` - адрес покупателя
 - `protected _email: string` - email покупателя
 - `protected _phone: string` - номер телефона покупателя
-- `protected _purchases: IProduct[]` - массив товаров для покупки
-- `protected _totalSum: number` - общая цена покупаемых товаров
-- `protected _customerInfo: ICustomer` - вся информация о покупке 
-- `protected events: IEvents` - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
+- `protected _address: string` - адрес покупателя
+- `protected _total: number` - общая стоимость заказанных товаров
+- `protected _items: string[]` - список id товаров заказа
+- `protected _customerInfo: ICustomer` - вся информация о заказе в формате необходимом для отправки в теле post запроса на сервер 
   
 Параметры в конструкторе:
-- `events: IEvents` - объект класса `EventEmitter` для инициации событий при изменении данных.
-
+- параметры `Model`.
+  
 Методы, геттеры и сеттеры:
  - `set payment(value: TPayment): void` - запись способа оплаты 
- - `set address(value: string): void` - запись адреса покупателя
  - `set email(value: string): void` - запись email покупателя
  - `set phone(value: string): void` - запись номера телефона покупателя
- - `set purchases(value: IProduct[]): void` - добавление в массив товаров покупателя
- - `set totalSum(value: string): void` - запись общей суммы покупок
- - `addCard(item: IProduct): void` - добавление продукта в список покупок _purchases
- - `deleteCard(id: string): void` - удаление продукта по его id из списка покупок
- - `set customerInfo(userData: ICustomer): void`  - запись всей информации о покупке
- - `get customerInfo(): ICustomer` - возвращение всей информации о покупке.
+ - `set address(value: string): void` - запись адреса покупателя
+ - `set total(value: number): void` - запись общей суммы покупок
+ - `set items(value: string[])`  - запись id товаров заказа
+ - `get customerInfo(): ICustomer` - возвращение всей информации о заказе.
 
 #### Класс SuccessData
 Класс отвечает за данные, получаемые с сервера после успешного офрмления заказа
@@ -156,7 +176,7 @@ yarn build
 Абстрактный класс View служит шаблоном для классов слоя представления
 
 Поля:
-- `protected _container: HTMLElement` - DOM элемент, передаваемый в консструкторе
+- `protected _container: HTMLElement` - DOM элемент, передаваемый в конструкторе
 - `protected events: IEvents` - объект класса `EventEmitter` для инициации событий при изменении данных.
 
 Параметры в конструкторе:
@@ -351,6 +371,7 @@ yarn build
 #### *События изменения данных (генерируются классами моделями данных):*
 
 - `products:changed` - изменение массива данных продуктов
+- `purchases:changed` - изменение массива покупок(добавленные товары покупателем в корзину)
 - `product:selected` -изменение открываемой в модальном окне карточки товара
 - `success:changed` - изменение данных заказа
 

@@ -11,23 +11,30 @@ export interface IProduct {
 
 export interface IProductsData {
   products: IProduct[];
-  addProduct(product: IProduct): void;
-  getProduct(productId: string): IProduct;
+  getProduct(id: string): IProduct|undefined;
+}
+
+export interface IBasketData {
+  purchases: IProduct[];
+  addPurchase(value: IProduct): void;
+  deletePurchase(id: string): void;
+  getQuantity(): number;
+  getTotal(): number;
+  getIdList(): string[];
+  clear(): void;
 }
 
 export interface ICustomer {
   payment: TPayment;
-  address: string;
   email: string;
   phone: string;
-  purchases: IProduct[];
-  totalSum: number;
+  address: string;
+  total: number;
+  items: string[];
 }
 
 export interface IOrderData extends ICustomer {
   customerInfo: ICustomer;
-  addCard(item: IProduct): void;
-  deleteCard(id: string): void;
   }
 
 export interface ISuccessData {
@@ -85,3 +92,4 @@ export type TPayment = 'online' | 'point';
 export type TCard = Omit<IProduct, 'description'>;
 export type TCardBasket = Pick<IProduct, 'title'|'price'>;
 export type TSuccess = Pick<ISuccessData, 'total'>
+
