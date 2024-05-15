@@ -1,6 +1,6 @@
 import { Model } from "./base/Model";
 import { IOrderData } from "../types";
-import { IEvents } from "./base/events";
+import { IEvents } from "./base/Events";
 import { ICustomer } from "../types";
 import { TPayment } from "../types";
 
@@ -11,7 +11,6 @@ export class OrderData extends Model implements IOrderData {
   protected _address: string;
   protected _total: number;
   protected _items: string[];
-  protected _customerInfo: ICustomer;
 
   constructor(events: IEvents) {
     super(events);

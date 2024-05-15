@@ -1,4 +1,4 @@
-import { IEvents } from "../components/base/events";
+import { IEvents } from "../components/base/Events";
 
 export interface IProduct {
   id: string;
@@ -37,7 +37,7 @@ export interface IOrderData extends ICustomer {
   customerInfo: ICustomer;
   }
 
-export interface ISuccessData {
+export interface IOrderSuccessfulData {
   id: string;
   total: number;
 }
@@ -91,5 +91,5 @@ export interface Success {
 export type TPayment = 'online' | 'point';
 export type TCard = Omit<IProduct, 'description'>;
 export type TCardBasket = Pick<IProduct, 'title'|'price'>;
-export type TSuccess = Pick<ISuccessData, 'total'>
+export type TSuccess = Pick<IOrderSuccessfulData, 'total'>
 

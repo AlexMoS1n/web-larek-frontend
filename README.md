@@ -141,7 +141,6 @@ yarn build
 - `protected _address: string` - адрес покупателя
 - `protected _total: number` - общая стоимость заказанных товаров
 - `protected _items: string[]` - список id товаров заказа
-- `protected _customerInfo: ICustomer` - вся информация о заказе в формате необходимом для отправки в теле post запроса на сервер 
   
 Параметры в конструкторе:
 - параметры `Model`.
@@ -153,7 +152,7 @@ yarn build
  - `set address(value: string): void` - запись адреса покупателя
  - `set total(value: number): void` - запись общей суммы покупок
  - `set items(value: string[])`  - запись id товаров заказа
- - `get customerInfo(): ICustomer` - возвращение всей информации о заказе.
+ - `get customerInfo(): ICustomer` - возвращение всей информации о заказе в формате необходимом для отправки в теле post запроса на сервер. 
 
 #### Класс SuccessData
 Класс отвечает за данные, получаемые с сервера после успешного офрмления заказа

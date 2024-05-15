@@ -1,7 +1,7 @@
 import { Model } from "./base/Model";
 import { IBasketData } from "../types";
 import { IProduct } from "../types";
-import { IEvents } from "./base/events";
+import { IEvents } from "./base/Events";
 
 export class BasketData extends Model implements IBasketData {
   protected _purchases: IProduct[];
