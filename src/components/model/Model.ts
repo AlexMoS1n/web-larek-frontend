@@ -1,9 +1,9 @@
-import { IEvents } from "../base/Events";
+import { IEvents } from '../base/Events';
 
 export abstract class Model {
-  protected events: IEvents;
+	protected events: IEvents;
 
-  constructor (events: IEvents) {
-    this.events = events;
-  }
+	constructor(events: IEvents) {
+		this.events = events;
+	}
 }

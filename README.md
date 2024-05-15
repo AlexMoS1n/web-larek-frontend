@@ -85,7 +85,7 @@ yarn build
 - `on<T extends object>(eventName: EventName, callback: (event: T) => void)` - подписка на событие
 - `off(eventName: EventName, callback: Subscriber)` - отписка от события
 - `emit<T extends object>(eventName: string, data?: T)` - инициализация события
-- `onAll(callback: (event: EmitterEvent) => void)` - подписаться на все события
+- `onAll(callback: (event: EmitterEvent) => void)` - подписаться на все события (выполнить колбек на любое событие)
 - `offAll()` - для сброса событий
 - `trigger<T extends object>(eventName: string, context?: Partial<T>)` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие.   
 
