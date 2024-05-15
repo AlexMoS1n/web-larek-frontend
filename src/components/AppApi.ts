@@ -1,7 +1,7 @@
 import { Api, ApiListResponse } from "./base/Api";
-import { IProduct, ICustomer, IOrderSuccessfulData } from "../types"
+import { IAppApi, IProduct, ICustomer, IOrderSuccessfulData } from "../types"
 
-class AppApi extends Api {
+class AppApi extends Api implements IAppApi {
   protected cdn: string; 
 
   constructor(cdn: string, baseUrl: string, options: RequestInit = {}) {

@@ -1,6 +1,6 @@
-import { Model } from "./base/Model";
-import { IProduct, IProductsData } from "../types";
-import { IEvents } from "./base/Events";
+import { Model } from "./Model";
+import { IProduct, IProductsData } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class ProductsData extends Model implements IProductsData {
   protected _products: IProduct[];

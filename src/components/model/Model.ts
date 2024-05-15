@@ -1,4 +1,4 @@
-import { IEvents } from "./Events";
+import { IEvents } from "../base/Events";
 
 export abstract class Model {
   protected events: IEvents;

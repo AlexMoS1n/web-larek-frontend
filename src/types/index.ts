@@ -35,7 +35,13 @@ export interface ICustomer {
 
 export interface IOrderData extends ICustomer {
   customerInfo: ICustomer;
-  }
+}
+
+export interface IAppApi {
+  getProducts(): Promise<IProduct[]>;
+  getProductById(id: string): Promise<IProduct>;
+  postOrder(order: ICustomer): Promise<IOrderSuccessfulData>;
+}
 
 export interface IOrderSuccessfulData {
   id: string;

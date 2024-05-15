@@ -1,8 +1,7 @@
-import { Model } from "./base/Model";
-import { IOrderData } from "../types";
-import { IEvents } from "./base/Events";
-import { ICustomer } from "../types";
-import { TPayment } from "../types";
+import { Model } from "./Model";
+import { IOrderData, TPayment } from "../../types";
+import { IEvents } from "../base/Events";
+
 
 export class OrderData extends Model implements IOrderData {
   protected _payment: TPayment;
