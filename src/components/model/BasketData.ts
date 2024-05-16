@@ -16,18 +16,23 @@ export class BasketData extends Model implements IBasketData {
   addPurchase(value: IProduct) {
     if(!this._purchases.find(purchase => {purchase.id === value.id})) {
       this._purchases.push(value);
-      this.events.emit('purchases:changed')
+      this.events.emit('purchases:changed', {id: value.id })
     }
   }
 
   deletePurchase(id: string) {
     this._purchases = this._purchases.filter(purchase => purchase.id !== id);
-    this.events.emit('purchases:changed')
+    this.events.emit('purchases:changed', {id: id})
   }
 
   getQuantity() {
     return this._purchases.length
   }
+
+  checkProduct(id: string) {
+    return Boolean(this._purchases.find(purchase => purchase.id === id))
+  }
+
 
   getTotal() {
     return this._purchases.reduce((sum, purchase) => {

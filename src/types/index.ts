@@ -19,6 +19,7 @@ export interface IBasketData {
   addPurchase(value: IProduct): void;
   deletePurchase(id: string): void;
   getQuantity(): number;
+  checkProduct(id: string): boolean;
   getTotal(): number;
   getIdList(): string[];
   clear(): void;
@@ -65,19 +66,22 @@ export interface IForm {
 }
 
 export interface ICard {
-  card: HTMLElement;
+  id: string;
+  title: string;
+  price: string;
+}
+
+export interface ICardCatalog {
+  image: string;
+  category: string;
 }
 
 export interface ICardConstructor {
   new (container: HTMLElement, events: IEvents): ICard;
 }
 
-export interface ICardsCatalog {
-  addCard(cardsList: TCard[]): void;
-}
-
 export interface ICardBasket {
-  card: HTMLElement;
+  index: number;
 }
 
 export interface ICardBasketConstructor {
@@ -94,8 +98,10 @@ export interface Success {
   total: number;
 }
 
+export type TCardCatalog = Omit<IProduct, 'description'>;
+export type TCategoryClassNames = 'card__category_soft' |'card__category_other' | 'card__category_additional' | 'card__category_button' | 'card__category_hard';
+export type TCategoryClasses = Record<string, TCategoryClassNames>;
+export type TCardBasket = Pick<IProduct, 'id' | 'title' | 'price'> & {index: number};
 export type TPayment = 'online' | 'point';
-export type TCard = Omit<IProduct, 'description'>;
-export type TCardBasket = Pick<IProduct, 'title'|'price'>;
 export type TSuccess = Pick<IOrderSuccessfulData, 'total'>
 
