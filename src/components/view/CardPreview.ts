@@ -16,7 +16,19 @@ export class CardPreview<T> extends CardCatalog<T> {
     })
   }
 
-  set description(value: string) {
-    this._description.textContent = value;
+  set priceCheck(value: boolean) {
+    this.buttonBuyDelete.disabled = value
+  }
+
+  get priceCheck() { 
+    return this.buttonBuyDelete.disabled 
+  }
+
+  set state(value: boolean) {
+    if(this.priceCheck) { this.buttonBuyDelete.textContent = "Не продается"}
+    else {
+      if(value) {this.buttonBuyDelete.textContent = "Купить"} 
+      else {this.buttonBuyDelete.textContent  = "Убрать из корзины"}
+    }
   }
 }

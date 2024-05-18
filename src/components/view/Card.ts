@@ -8,7 +8,7 @@ export abstract class Card<T> extends View<T> implements ICard {
   protected _title: HTMLHeadingElement;
   protected _price: HTMLSpanElement;
 
-  constructor(container: HTMLElement, events: IEvents){
+  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
     this._title = ensureElement<HTMLHeadingElement>('.card__title', container);
     this._price = ensureElement<HTMLSpanElement>('.card__price', container);

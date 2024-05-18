@@ -7,9 +7,9 @@ export class CardBasket extends Card<TCardBasket> implements ICardBasket {
   protected _index: HTMLSpanElement;
   protected buttonDelCard: HTMLButtonElement;
 
-  constructor(container: HTMLElement, events: IEvents){
+  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
-    this._index = ensureElement<HTMLSpanElement>('.basket__item-index', container);
+    this._index = ensureElement<HTMLSpanElement>('.header__basket', container);
     this.buttonDelCard = ensureElement<HTMLButtonElement>('.basket__item-delete', container);
     this.buttonDelCard.addEventListener('click', () => this.events.emit('purchases:delete', {id: this.id}))
   }
