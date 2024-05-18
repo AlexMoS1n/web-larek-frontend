@@ -1,8 +1,9 @@
 import { CardCatalog } from "./CardCatalog";
 import { IEvents } from "../base/Events";
 import { ensureElement } from "../../utils/utils";
+import { TCardDetail, ICardDetail } from "../../types";
 
-export class CardPreview<T> extends CardCatalog<T> {
+export class CardDetail extends CardCatalog<TCardDetail> implements ICardDetail{
   protected _description: HTMLParagraphElement;
   protected buttonBuyDelete: HTMLButtonElement;
 
@@ -14,6 +15,10 @@ export class CardPreview<T> extends CardCatalog<T> {
       if(this.buttonBuyDelete.textContent === 'Купить') {this.events.emit('purchases:add', {id: this.id})}
       else {this.events.emit('purchases:delete', {id: this.id})}
     })
+  }
+
+  set description(value: string) {
+    this._description.textContent = value
   }
 
   set priceCheck(value: boolean) {

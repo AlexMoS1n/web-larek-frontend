@@ -1,12 +1,12 @@
 import { View } from "./View";
-import { TPage } from "../../types";
+import { IPage, TPage } from "../../types";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 
-export class Page extends View<TPage> {
+export class Page extends View<TPage> implements IPage {
     protected _catalog: HTMLElement;
-    protected _counter: HTMLSpanElement;
     protected buttonBasket: HTMLButtonElement;
+    protected _counter: HTMLSpanElement;
 
  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
@@ -20,7 +20,7 @@ export class Page extends View<TPage> {
       this._catalog.replaceChildren(...cards)
    }
 
-   set counter(value: string) {
-      this._counter.textContent = value;
+   set counter(value: number) {
+      this._counter.textContent = String(value);
    }
 }
