@@ -1,9 +1,9 @@
 import { View } from "./View";
-import { TForm } from "../../types";
+import { IForm, TForm } from "../../types";
 import { ensureAllElements, ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 
-export class Form<T> extends View<TForm> {
+export abstract class Form<T> extends View<TForm> implements IForm {
   protected container: HTMLFormElement;
   protected inputsList: HTMLInputElement[];
   protected submitButton: HTMLButtonElement;
@@ -14,6 +14,7 @@ export class Form<T> extends View<TForm> {
     this.inputsList = ensureAllElements<HTMLInputElement>('.form__input', container);
     this.submitButton = ensureElement<HTMLButtonElement>('button[type=submit]', container);
     this._errorMessage = ensureElement<HTMLSpanElement>('.form__errors' , container);
+
     this.container.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       this.events.emit(`${this.container.name}:submit`)

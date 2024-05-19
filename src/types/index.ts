@@ -89,8 +89,25 @@ export interface IModal {
 
 export interface IForm {
   valid: boolean;
-  textError: string;
+  errorMessage: string;
   clear(): void;
+}
+
+export interface IFormOrder {
+  payment: TPayment | null;
+  address: string;
+  valid: boolean;
+  clear(): void; 
+  render(data: object ): HTMLElement; 
+}
+
+export interface IFormContacts {
+  email: string;
+  phone: string;
+}
+
+export interface ISuccess {
+  description: number;
 }
 
 export interface ICardConstructor {
@@ -119,7 +136,9 @@ export type TCardDetail = IProduct & {priceCheck: boolean; state: boolean};
 export type TPage = {counter: number, catalog: HTMLElement[]};
 export type TBasket = {cardsList: HTMLElement; total: number; emptyCheck: boolean};
 export type TModal ={content: HTMLElement};
-export type TForm = {valid: boolean, errorMessage: string}
-export type TPayment = 'online' | 'point';
-export type TSuccess = Pick<IOrderSuccessfulData, 'total'>
+export type TForm = {valid: boolean; errorMessage: string}
+export type TPayment = 'card' | 'cash';
+export type TFormOrder = {payment: TPayment; address: string};
+export type TFormContacts = {email: string; phone: string};
+export type TSuccess = {description: string};
 

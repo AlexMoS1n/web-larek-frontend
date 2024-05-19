@@ -9,7 +9,7 @@ export class Modal extends View<TModal> implements IModal {
 
   constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
-    this.container.addEventListener('click', (event) => {
+    this.container.addEventListener('mouseup', (event) => {
       if(event.target === event.currentTarget) {this.close()}
     });
     this._content = ensureElement<HTMLElement>('.modal__container', container);

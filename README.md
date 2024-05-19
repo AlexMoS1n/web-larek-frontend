@@ -300,48 +300,48 @@ yarn build
 - `close(): void` - метод для закрытия модального окна.
 
 #### Класс Form
-Наследует класс View. Реализует пользовательский функционал с формами.  
+Расширяет класс View. Является абстрактным классом дженериком и шаблоном для форм приложения. Реализует пользовательский функционал с формами.  
 
 Поля:
-- `protected inputsList: HTMLInputElement[]` - список input элементов формы
+- `protected inputsList: HTMLInputElement[]` - массив input элементов формы
 - `protected submitButton: HTMLButtonElement` - кнопка отправки формы
-- `protected _error: HTMLSpanElement` - элемент для отображения ошибок формы.
+- `protected _errorMessage: HTMLSpanElement` - html элемент для отображения ошибок формы.
 
 Параметры в конструкторе:
 - параметры `View`.
   
 Методы, геттеры и сеттеры:
 - `get valid(): boolean` - получения статуса валидности формы
-- `set valid(value: boolean):void` - для блокировки / разблокировки кнопки submit
-- `set textError(value: string)` - установка текста ошибок
-- `clear():void` - очистка формы.
+- `set valid(value: boolean):void` - запись для блокировки (true) / разблокировки (false) кнопки submit
+- `set errorMessage(value: string)` - установка текста ошибок
+- `clear():void` - очистка формы
+- `render(data: Partial<T> & TForm ): HTMLElement` - модернезированный render View для форм: учитывает установку обязательных полей valid и errorMessage.  
 
-#### Класс OrderForm
+#### Класс FormOrder
 Расширяет класс Form. Форма для указания способа доставки и адреса доставки.
 
 Поля:
-- `protected buttonContainer: HTMLDivElement` - контейнер, содержащий кнопки "онлайн" и "при получении"
-- `protected buttonOnline: HTMLButtonElement;` - кнопка "онлайн"
-- `protected buttonPoint: HTMLButtonElement` - кнопка "при получении"
-- `protected inputAddress: HTMLInputElement` - поле для ввода адреса.
+- `protected containerButtons: HTMLDivElement` - контейнер, содержащий кнопки "онлайн" и "при получении"
+- `protected buttonCard: HTMLButtonElement` - кнопка "онлайн"
+- `protected buttonCash: HTMLButtonElement` - кнопка "при получении"
+- `protected inputAddress: HTMLInputElement` - поле для ввода адреса покупателя.
 
 Параметры в конструкторе:
 - параметры `Form`
  
 Методы, геттеры и сеттеры:
-- `protected getActiveButton(): HTMLButtonElement | null` - возвращает кнопку, которая активна, либо null, если никто из них неактивна.
-- `protected toggleOnlinePoint(state: boolean): void` - добавляет или удаляет класс, символизирующий активность, c кнопки "Онлайн"/"При получении".
-- `protected resetButtons(): void` - очищаетет класс активности с кнопок "Онлайн" и "При получении".
+- `protected getButtonActive(): HTMLButtonElement | null` - служебный метод: возвращает кнопку, которая активна, либо null, если никто из них неактивна.
+- `protected resetButtons(): void` - служебный метод: очищаетет класс активности с кнопок "Онлайн" и "При получении".
 - `clear(): void` - Очищает форму (в том числе снимает класс активности с кнопок)
+- `get payment()` - возвращает имя активной кнопки (нужно для записи способа покупки), либо null. 
 - `get valid(): boolean` - возвращает валидность формы. В данном случае форма валидна, если была нажата одна из кнопок и в поле ввода не пустое значение.
-- `set valid(value: boolean)` - устанавливает валидность формы, блокируя кнопку. В данном случае форма валидна, если была нажата одна из кнопок и в поле ввода не пустое значение.
 
 #### Класс ContactsForm
 Расширяет класс Form. Форма для указания телефона и email покупателя.
 
 Поля
-- `protected emailInput: HTMLInputElement` - текстовое поле для email
-- `protected phoneInput: HTMLInputElement` - текстовое поле для номера телефона.
+- `protected inputEmail: HTMLInputElement` - текстовое поле для email
+- `protected inputPhone: HTMLInputElement` - текстовое поле для номера телефона.
 
 Параметры в конструкторе:
 - параметры `Form`
@@ -366,7 +366,7 @@ yarn build
 ### Слой коммуникации
 
 #### Класс AppApi
-Наследуется от класса Api и предоставляет методы реализующие взаимодействие с бэкендом сервиса.  
+Расширяет класс Api и предоставляет методы реализующие взаимодействие с бэкендом сервиса.  
 
 Методы, геттеры и сеттеры:
 - `getProducts(): Promise<IProduct[]>` - получает с сервера массив объектов всех товаров
@@ -403,6 +403,6 @@ yarn build
 - `basket:submit` - сохранение данных о выбранных покупателем товаров
 - `edit-order:submit` - сохранение способа оплаты и адреса доставки пользователя
 - `edit-contacts:submit` - сохранение email и телефона покупателя
-- `success: submit` - очистка данных данных о пользователь поссле подтверждения успешного заказа
+- `success: confirm` - очистка данных данных о пользователь поссле подтверждения успешного заказа
 - `edit-order:validation` - событие, сообщающее о необходимости валидации формы доставки
 - `edit-contacts:validation` - событие, сообщающее о необходимости валидации формы контактных данных покупателя
