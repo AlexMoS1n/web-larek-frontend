@@ -1,9 +1,9 @@
 import { View } from "./View";
-import { IPage, TPage } from "../../types";
+import { TForm } from "../../types";
 import { ensureAllElements, ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 
-export class Form extends View<T> {
+export class Form<T> extends View<TForm> {
   protected container: HTMLFormElement;
   protected inputsList: HTMLInputElement[];
   protected submitButton: HTMLButtonElement;
@@ -18,10 +18,17 @@ export class Form extends View<T> {
       event.preventDefault();
       this.events.emit(`${this.container.name}:submit`)
     })
+    this.inputsList.forEach(input => {
+      input.addEventListener('input', () => this.events.emit(`${this.container.name}:input`))
+    });
   }
 
-  checkValidSubmit() {
-    this.submitButton.disabled = this.inputsList.some(input => input.value.length === 0)
+  get valid() {
+    return this.inputsList.some(input => input.value.length === 0)
+  }
+
+  set valid(value: boolean) {
+    this.submitButton.disabled = value;
   }
 
   set errorMessage(value: string) {
@@ -30,5 +37,12 @@ export class Form extends View<T> {
 
   clear() {
     this.container.reset()
+  }
+
+  render(data: Partial<T> & TForm ): HTMLElement {
+    const {valid, errorMessage, ...otherFormData} = data;
+    this.valid = valid;
+    this.errorMessage = errorMessage;
+    return super.render(otherFormData)
   }
 }

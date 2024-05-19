@@ -119,6 +119,7 @@ export type TCardDetail = IProduct & {priceCheck: boolean; state: boolean};
 export type TPage = {counter: number, catalog: HTMLElement[]};
 export type TBasket = {cardsList: HTMLElement; total: number; emptyCheck: boolean};
 export type TModal ={content: HTMLElement};
+export type TForm = {valid: boolean, errorMessage: string}
 export type TPayment = 'online' | 'point';
 export type TSuccess = Pick<IOrderSuccessfulData, 'total'>
 

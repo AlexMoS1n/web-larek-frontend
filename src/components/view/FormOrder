@@ -1,0 +1,29 @@
+import { Form } from "./Form";
+import { TForm } from "../../types";
+import { ensureElement } from "../../utils/utils";
+import { IEvents } from "../base/Events";
+
+export class FormOrder<T> extends Form<T> {
+  protected containerButtons: HTMLDivElement;
+  protected buttonCard: HTMLButtonElement;
+  protected buttonCash: HTMLButtonElement;
+  protected inputAddress: HTMLInputElement;
+
+  constructor(container: HTMLFormElement, events: IEvents) {
+    super(container, events); 
+    this.containerButtons = ensureElement<HTMLDivElement>('.order__buttons', container);
+    this.buttonCard = ensureElement<HTMLButtonElement>('button[name="card"]', this.containerButtons);
+    this.buttonCash = ensureElement<HTMLButtonElement>('button[name="cash"]', this.containerButtons);
+    this.inputAddress = ensureElement<HTMLInputElement>('')
+  }
+
+  resetButtons() {
+    this.buttonCard.classList.remove('button_alt-active');
+    this.buttonCash.classList.remove('button_alt-active');
+  }
+
+  clear(){
+    super.clear();
+    this.resetButtons()
+  }
+}
