@@ -11,7 +11,7 @@ export class SuccessData extends Model implements ISuccessData {
 
   set orderSuccess (value: TSuccessData) {
     this._orderSuccess = value;
-    this.events.emit('success:change', this._orderSuccess)
+    this.events.emit('success:changed', this._orderSuccess)
   }
 
   get orderSuccess() {

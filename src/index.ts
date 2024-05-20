@@ -151,7 +151,7 @@ events.on('contacts:submit', () => {
 });
 
 //реагируем на получение данных с сервера и записываем в соответсвующий объект класса слоя данных
-events.on('success:change', (data: TSuccessData) => {
+events.on('success:changed', (data: TSuccessData) => {
   modal.render({content: success.render({description: String(data.total)})})
 });
 
