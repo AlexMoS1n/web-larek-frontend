@@ -1,9 +1,9 @@
 import { CardCatalog } from "./CardCatalog";
 import { IEvents } from "../base/Events";
 import { ensureElement } from "../../utils/utils";
-import { TCardDetail, ICardDetail } from "../../types";
+import { TCardPreview, ICardPreview } from "../../types";
 
-export class CardDetail extends CardCatalog<TCardDetail> implements ICardDetail{
+export class CardPreview extends CardCatalog<TCardPreview> implements ICardPreview {
   protected _description: HTMLParagraphElement;
   protected buttonBuyDelete: HTMLButtonElement;
 
@@ -22,18 +22,18 @@ export class CardDetail extends CardCatalog<TCardDetail> implements ICardDetail{
   }
 
   set priceCheck(value: boolean) {
-    this.buttonBuyDelete.disabled = value
+    this.buttonBuyDelete.disabled = !value
   }
 
   get priceCheck() { 
-    return this.buttonBuyDelete.disabled 
+    return !this.buttonBuyDelete.disabled 
   }
 
   set state(value: boolean) {
-    if(this.priceCheck) { this.buttonBuyDelete.textContent = "Не продается"}
+    if(!this.priceCheck) { this.buttonBuyDelete.textContent = "Не продается"}
     else {
-      if(value) {this.buttonBuyDelete.textContent = "Купить"} 
-      else {this.buttonBuyDelete.textContent  = "Убрать из корзины"}
+      if(value) {this.buttonBuyDelete.textContent = "Убрать из корзины"} 
+      else {this.buttonBuyDelete.textContent  = "Купить"}
     }
   }
 }

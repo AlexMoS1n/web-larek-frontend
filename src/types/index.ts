@@ -38,15 +38,15 @@ export interface IOrderData extends ICustomer {
   customerInfo: ICustomer;
 }
 
+export interface ISuccessData {
+  id: string;
+  total: number;
+}
+
 export interface IAppApi {
   getProducts(): Promise<IProduct[]>;
   getProductById(id: string): Promise<IProduct>;
-  postOrder(order: ICustomer): Promise<IOrderSuccessfulData>;
-}
-
-export interface IOrderSuccessfulData {
-  id: string;
-  total: number;
+  postOrder(order: ICustomer): Promise<ISuccessData>;
 }
 
 export interface ICard {
@@ -64,7 +64,7 @@ export interface ICardBasket {
   index: number;
 }
 
-export interface ICardDetail {
+export interface ICardPreview {
   description: string;
   priceCheck: boolean;
   state: boolean;
@@ -73,6 +73,7 @@ export interface ICardDetail {
 export interface IPage {
   catalog: HTMLElement[];
   counter: number;
+  lockScreen(value: boolean): void;
 }
 
 export interface IBasket {
@@ -132,9 +133,9 @@ export type TCardCatalog = Omit<IProduct, 'description'>;
 export type TCategoryClassNames = 'card__category_soft' |'card__category_other' | 'card__category_additional' | 'card__category_button' | 'card__category_hard';
 export type TCategoryClasses = Record<string, TCategoryClassNames>;
 export type TCardBasket = Pick<IProduct, 'id' | 'title' | 'price'> & {index: number};
-export type TCardDetail = IProduct & {priceCheck: boolean; state: boolean};
+export type TCardPreview = IProduct & {priceCheck: boolean; state: boolean};
 export type TPage = {counter: number, catalog: HTMLElement[]};
-export type TBasket = {cardsList: HTMLElement; total: number; emptyCheck: boolean};
+export type TBasket = {cardsList: HTMLElement[]; total: number; emptyCheck: boolean};
 export type TModal ={content: HTMLElement};
 export type TForm = {valid: boolean; errorMessage: string}
 export type TPayment = 'card' | 'cash';

@@ -7,20 +7,21 @@ export class ProductsData extends Model implements IProductsData {
 
   constructor(events: IEvents) {
     super(events);
+    this._products =[];
   }
 
   set products(value: IProduct[]) {
     this._products = value;
-    this.events.emit('products:changed')
+    this.events.emit('products:changed', this._products)
   }
 
   get products() {
     return this._products;
   }
    
-  getProduct(id: string):IProduct|undefined {
-    return this._products.find(product => {
-      (product.id === id)
+  getProduct(id: string):IProduct | undefined {
+    return this._products.find((product) => {
+     return (product.id === id)
     })
   }
 }

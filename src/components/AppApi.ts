@@ -1,7 +1,7 @@
 import { Api, ApiListResponse } from "./base/Api";
-import { IAppApi, IProduct, ICustomer, IOrderSuccessfulData } from "../types"
+import { IAppApi, IProduct, ICustomer, ISuccessData } from "../types"
 
-class AppApi extends Api implements IAppApi {
+export class AppApi extends Api implements IAppApi {
   protected cdn: string; 
 
   constructor(cdn: string, baseUrl: string, options: RequestInit = {}) {
@@ -21,8 +21,8 @@ class AppApi extends Api implements IAppApi {
     })
   }
 
-  postOrder(order: ICustomer): Promise<IOrderSuccessfulData> {
-    return this.post('/order', order).then((success: IOrderSuccessfulData) => {
+  postOrder(order: ICustomer): Promise<ISuccessData> {
+    return this.post('/order', order).then((success: ISuccessData) => {
       return success
     })
   }

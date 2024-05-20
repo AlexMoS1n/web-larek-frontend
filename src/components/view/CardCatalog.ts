@@ -11,6 +11,7 @@ export class CardCatalog<T> extends Card<T> implements ICardCatalog {
     super(container, events);
     this._image = ensureElement<HTMLImageElement>('.card__image', container);
     this._category = ensureElement<HTMLSpanElement>('.card__category', container);
+    this.container.addEventListener('click', () => this.events.emit('modal-card:open', {id: this.id}))
   }
 
   protected addCSSClassCategory(value: string) {

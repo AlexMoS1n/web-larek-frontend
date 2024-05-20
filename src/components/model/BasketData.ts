@@ -7,6 +7,7 @@ export class BasketData extends Model implements IBasketData {
   
   constructor(events: IEvents) {
     super(events);
+    this._purchases = [];
   }
 
   get purchases() {

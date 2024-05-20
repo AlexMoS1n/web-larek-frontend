@@ -12,8 +12,8 @@ export class Modal extends View<TModal> implements IModal {
     this.container.addEventListener('mouseup', (event) => {
       if(event.target === event.currentTarget) {this.close()}
     });
-    this._content = ensureElement<HTMLElement>('.modal__container', container);
-    this.buttonClose = ensureElement<HTMLButtonElement>('.modal__close', this._content);
+    this._content = ensureElement<HTMLElement>('.modal__content', container);
+    this.buttonClose = ensureElement<HTMLButtonElement>('.modal__close', container);
     this.buttonClose.addEventListener('click', () => this.close())
   }
 
