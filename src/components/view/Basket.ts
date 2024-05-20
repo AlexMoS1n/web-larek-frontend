@@ -12,7 +12,8 @@ export class Basket extends View<TBasket> {
     super(container, events);
     this._cardsList = ensureElement<HTMLUListElement>('.basket__list', container);
     this._totalPrice = ensureElement<HTMLSpanElement>('.basket__price', container);
-    this.buttonCheckout = ensureElement<HTMLButtonElement>('.basket__button', container)
+    this.buttonCheckout = ensureElement<HTMLButtonElement>('.basket__button', container);
+    this.buttonCheckout.addEventListener('click', () => this.events.emit('modal-order:open'))
   }
 
   set cardsList(cards: HTMLElement[]) {

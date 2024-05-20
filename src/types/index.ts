@@ -1,5 +1,3 @@
-import { IEvents } from "../components/base/Events";
-
 export interface IProduct {
   id: string;
   description: string;
@@ -38,15 +36,25 @@ export interface IOrderData extends ICustomer {
   customerInfo: ICustomer;
 }
 
+export interface IOrderDataBuilder {
+  purchasesInfo: TPurchasesInfo;
+  deliveryInfo: TDeliveryInfo;
+  contactsInfo: TContactsInfo;
+  getOrderData(): ICustomer;
+}
+
+export interface IOrderConstructor {
+  new (): IOrderData;
+}
+
 export interface ISuccessData {
-  id: string;
-  total: number;
+  orderSuccess: TSuccessData;
 }
 
 export interface IAppApi {
   getProducts(): Promise<IProduct[]>;
   getProductById(id: string): Promise<IProduct>;
-  postOrder(order: ICustomer): Promise<ISuccessData>;
+  postOrder(order: ICustomer): Promise<TSuccessData>;
 }
 
 export interface ICard {
@@ -105,18 +113,11 @@ export interface IFormOrder {
 export interface IFormContacts {
   email: string;
   phone: string;
+  valid: boolean;
 }
 
 export interface ISuccess {
-  description: number;
-}
-
-export interface ICardConstructor {
-  new (container: HTMLElement, events: IEvents): ICard;
-}
-
-export interface ICardBasketConstructor {
-  new (container: HTMLElement, events: IEvents): ICardBasket;
+  description: string;
 }
 
 export interface IBasketView {
@@ -125,10 +126,9 @@ export interface IBasketView {
   totalPrice: number;
 }
 
-export interface Success {
-  total: number;
-}
-
+export type TPurchasesInfo = Pick<ICustomer, 'total' | 'items'>;
+export type TDeliveryInfo = Pick<ICustomer, 'payment' | 'address'>;
+export type TContactsInfo = Pick<ICustomer, 'email' | 'phone' >
 export type TCardCatalog = Omit<IProduct, 'description'>;
 export type TCategoryClassNames = 'card__category_soft' |'card__category_other' | 'card__category_additional' | 'card__category_button' | 'card__category_hard';
 export type TCategoryClasses = Record<string, TCategoryClassNames>;
@@ -137,9 +137,10 @@ export type TCardPreview = IProduct & {priceCheck: boolean; state: boolean};
 export type TPage = {counter: number, catalog: HTMLElement[]};
 export type TBasket = {cardsList: HTMLElement[]; total: number; emptyCheck: boolean};
 export type TModal ={content: HTMLElement};
-export type TForm = {valid: boolean; errorMessage: string}
+export type TForm = {valid: boolean}
 export type TPayment = 'card' | 'cash';
 export type TFormOrder = {payment: TPayment; address: string};
 export type TFormContacts = {email: string; phone: string};
+export type TSuccessData = {id: string; total: number};
 export type TSuccess = {description: string};
-
+export type TId = {id: string};

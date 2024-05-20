@@ -20,12 +20,13 @@ export abstract class Form<T> extends View<TForm> implements IForm {
       this.events.emit(`${this.container.name}:submit`)
     })
     this.inputsList.forEach(input => {
-      input.addEventListener('input', () => this.events.emit(`${this.container.name}:input`))
+      input.addEventListener('input', () => 
+        this.events.emit(`${this.container.name}:valid`))
     });
   }
 
   get valid() {
-    return this.inputsList.some(input => input.value.length === 0)
+    return this.inputsList.every(input => input.value.length === 0)
   }
 
   set valid(value: boolean) {
@@ -41,9 +42,8 @@ export abstract class Form<T> extends View<TForm> implements IForm {
   }
 
   render(data: Partial<T> & TForm ): HTMLElement {
-    const {valid, errorMessage, ...otherFormData} = data;
+    const {valid, ...otherFormData} = data;
     this.valid = valid;
-    this.errorMessage = errorMessage;
     return super.render(otherFormData)
   }
 }

@@ -14,7 +14,7 @@ export class Success extends View<TSuccess> implements ISuccess {
     this.buttonOrderSuccess.addEventListener('click', () => this.events.emit('success:confirm'))
   }
 
-  set description(total: number) {
+  set description(total: string) {
     this._description.textContent = `Списано ${total} синапсов`
   }
 }

@@ -23,7 +23,7 @@ export class BasketData extends Model implements IBasketData {
 
   deletePurchase(id: string) {
     this._purchases = this._purchases.filter(purchase => purchase.id !== id);
-    this.events.emit('purchases:changed', {id: id})
+    this.events.emit('purchases:changed', {id})
   }
 
   getQuantity() {

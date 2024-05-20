@@ -19,7 +19,8 @@ export class FormOrder extends Form<TFormOrder> implements IFormOrder {
       if((event.target === this.buttonCard) || (event.target === this.buttonCash)) {
         const buttonActive = event.target as HTMLButtonElement;
         this.resetButtons();
-        buttonActive.classList.add('button_alt-active')
+        buttonActive.classList.add('button_alt-active');
+        this.events.emit('order:valid')
       }
     })
   }
@@ -50,6 +51,23 @@ export class FormOrder extends Form<TFormOrder> implements IFormOrder {
   }
 
   get valid() {
-    return !((super.valid) && Boolean(this.payment))
+    if(!(super.valid) && Boolean(this.payment)) {
+      this.errorMessage ='';
+      return false
+    }
+    else if ((super.valid) && Boolean(this.payment)) {
+      this.errorMessage = 'Заполните поле адреса';
+      return true
+    }
+    else if ((super.valid) && !Boolean(this.payment)) {
+      this.errorMessage = 'Выберите способ оплаты и заполните поле адреса';
+      return true
+    }
+    this.errorMessage = 'Выберите способ оплаты';
+    return true
+  }
+
+  set valid(value: boolean) {
+    super.valid = value;
   }
 }

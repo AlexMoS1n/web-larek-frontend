@@ -1,9 +1,6 @@
-import { Model } from "./Model";
 import { IOrderData, TPayment } from "../../types";
-import { IEvents } from "../base/Events";
 
-
-export class OrderData extends Model implements IOrderData {
+export class OrderData implements IOrderData {
   protected _payment: TPayment;
   protected _email: string;
   protected _phone: string;
@@ -11,8 +8,8 @@ export class OrderData extends Model implements IOrderData {
   protected _total: number;
   protected _items: string[];
 
-  constructor(events: IEvents) {
-    super(events);
+  constructor() {
+
   }
 
   set payment(value: TPayment) {

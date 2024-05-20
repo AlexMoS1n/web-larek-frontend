@@ -7,6 +7,8 @@ import { AppApi } from './components/AppApi';
 import { ProductsData } from './components/model/ProductsData';
 import { BasketData } from './components/model/BasketData';
 import { OrderData } from './components/model/OrderData';
+import { OrderDataBuilder } from './components/model/OrderDataBuilder';
+import { SuccessData } from './components/model/SuccessData';
 import { CardCatalog } from './components/view/CardCatalog';
 import { CardBasket } from './components/view/CardBasket';
 import { CardPreview } from './components/view/CardPreview';
@@ -16,7 +18,7 @@ import { Modal } from './components/view/Modal';
 import { FormOrder } from './components/view/FormOrder';
 import { FormContacts } from './components/view/FormContacts';
 import { Success } from './components/view/Success';
-import { IProduct, TCardCatalog } from './types';
+import { IProduct, TCardCatalog, TId, TSuccessData } from './types';
 
 //найдем необходимые контейнеры и темплейты для классов представления
 const containerPage = ensureElement<HTMLElement>('.page');
@@ -36,7 +38,8 @@ const events = new EventEmitter();
 //Создаем необходимые экземпляры классов слоя модели
 const productsData = new ProductsData(events);
 const basketData = new BasketData(events);
-const orderData = new OrderData(events);
+const orderDataBuilder = new OrderDataBuilder(events, OrderData);
+const successData = new SuccessData(events);
 
 //Создаем необходимые экземпляры классов слоя представления
 const page = new Page(containerPage, events);
@@ -51,7 +54,7 @@ const success = new Success(cloneTemplate(templateSuccess), events);
 //получение данных о продуктах с сервера
 appappi.getProducts().then((data) => {
   productsData.products = data
-})
+}).catch(console.error)
 
 //реагируем на изменение (получение) данных о продуктах 
 events.on('products:changed', (products: IProduct[]) => {
@@ -81,7 +84,7 @@ events.on('modal-basket:open', () => {
 });
 
 //обработаем событие, когда покупатель кликнул по какой-нибудь карточке в каталоге на главной странице
-events.on('modal-card:open',(data: {id: string}) => {
+events.on('modal-card:open',(data: TId) => {
   const productCorrect = productsData.getProduct(data.id);
   if(productCorrect) { 
   modal.render({ content: cardPreview.render({...productCorrect, priceCheck: Boolean(productCorrect.price), state: basketData.checkProduct(productCorrect.id)})});
@@ -90,3 +93,69 @@ events.on('modal-card:open',(data: {id: string}) => {
 });
 
 //обработаем событие добавления товара в корзину
+events.on('purchases:add', (data: TId) => {
+  basketData.addPurchase(productsData.getProduct(data.id))
+});
+
+//обработаем событие удаления товара из корзины 
+events.on('purchases:delete', (data: TId) => {
+  basketData.deletePurchase(data.id)
+});
+
+//обработаем событие на изменения в покупках пользователя и сформируем корзину
+events.on('purchases:changed', (data: TId) => {
+  cardPreview.render({priceCheck: true, state: basketData.checkProduct(data.id)});
+  page.render({counter: basketData.getQuantity()});
+  const purchasesList = basketData.purchases.map((purchase, index) => {
+    const cardBasket = new CardBasket(cloneTemplate(templateCardBasket), events);
+    return cardBasket.render({...purchase, index: ++index})
+  });
+  basket.render({cardsList: purchasesList, total: basketData.getTotal(), emptyCheck: basketData.getQuantity() === 0})
+});
+
+//после того, как определились с покупками, записываем данные с корзины, необходмые для заказа и переходим к форме доставки: обработаем данное событие
+events.on('modal-order:open', () => {
+  orderDataBuilder.purchasesInfo = {total: basketData.getTotal(), items: basketData.getIdList()};
+  modal.render({content: formOrder.render({valid: formOrder.valid})})
+});
+
+//обработаем взаимодействие пользователя с полями формы доставки
+events.on('order:valid', () => {
+  formOrder.valid = formOrder.valid 
+});
+
+//после заполнения формы доставки и записи для заказа соответствующих данных для заказа, переходи к форме контактных данных: обработаем данное событие
+events.on(`order:submit`, () => {
+  orderDataBuilder.deliveryInfo = {payment: formOrder.payment, address: formOrder.address};
+  modal.render({content: formContacts.render({valid: formContacts.valid})})
+});
+
+//обработаем взаимодействие пользователя с полями формы контактных данных
+events.on('contacts:valid', () => {
+  formContacts.valid = formContacts.valid 
+});
+
+/*
+после успешного заполнения формы контактных данных отправляем сформированный заказ на сервер,
+получаем от сервера данные, записываем их и очищаем корзину и формы: обработаем данное событие
+*/
+events.on('contacts:submit', () => {
+  orderDataBuilder.contactsInfo = {email: formContacts.email, phone: formContacts.phone};
+  const order = orderDataBuilder.getOrderData().customerInfo;
+  appappi.postOrder(order).then((data: TSuccessData) => {
+    successData.orderSuccess = data;
+    basketData.clear();
+    formOrder.clear();
+    formContacts.clear()
+  }).catch(console.error)
+});
+
+//реагируем на получение данных с сервера и записываем в соответсвующий объект класса слоя данных
+events.on('success:change', (data: TSuccessData) => {
+  modal.render({content: success.render({description: String(data.total)})})
+});
+
+//событие об успешной покупке обрабатываем путем закрытия окна нажатием на кнопку "За новыми покупками"
+events.on('success:confirm', () => {
+  modal.close();
+})
