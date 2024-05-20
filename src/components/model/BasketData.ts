@@ -49,6 +49,6 @@ export class BasketData extends Model implements IBasketData {
 
   clear() {
     this._purchases = [];
-    this.events.emit('purchases:changed')
+    this.events.emit('purchases:changed', {})
   }
 }

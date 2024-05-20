@@ -104,7 +104,7 @@ events.on('purchases:delete', (data: TId) => {
 
 //обработаем событие на изменения в покупках пользователя и сформируем корзину
 events.on('purchases:changed', (data: TId) => {
-  cardPreview.render({priceCheck: true, state: basketData.checkProduct(data.id)});
+  cardPreview.render({priceCheck: true, state: !basketData.checkProduct(data.id)});
   page.render({counter: basketData.getQuantity()});
   const purchasesList = basketData.purchases.map((purchase, index) => {
     const cardBasket = new CardBasket(cloneTemplate(templateCardBasket), events);
@@ -144,9 +144,9 @@ events.on('contacts:submit', () => {
   const order = orderDataBuilder.getOrderData().customerInfo;
   appappi.postOrder(order).then((data: TSuccessData) => {
     successData.orderSuccess = data;
-    basketData.clear();
     formOrder.clear();
-    formContacts.clear()
+    formContacts.clear();
+    basketData.clear();
   }).catch(console.error)
 });
 
