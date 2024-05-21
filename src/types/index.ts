@@ -9,7 +9,7 @@ export interface IProduct {
 
 export interface IProductsData {
   products: IProduct[];
-  getProduct(id: string): IProduct|undefined;
+  getProduct(id: string): IProduct | undefined;
 }
 
 export interface IBasketData {
@@ -118,12 +118,6 @@ export interface IFormContacts {
 
 export interface ISuccess {
   description: string;
-}
-
-export interface IBasketView {
-  list: ICardBasket[];
-  valid: boolean;
-  totalPrice: number;
 }
 
 export type TPurchasesInfo = Pick<ICustomer, 'total' | 'items'>;

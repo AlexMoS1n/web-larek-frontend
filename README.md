@@ -165,9 +165,9 @@ yarn build
 - `orderConstructor: IOrderConstructor` - класс, создающий объекты интерфейса IOrderData.
 
 Методы, геттеры и сеттеры:
-- `purchasesInfo: TPurchasesInfo` - запись информации с корзины (1 этап)
-- `deliveryInfo: TDeliveryInfo` - запись информации с формы доставки (2 этап)
-- `contactsInfo: TContactsInfo` - запись информации с формы контактной информации (3 этап)
+- `set purchasesInfo: TPurchasesInfo` - запись информации с корзины (1 этап)
+- `set deliveryInfo: TDeliveryInfo` - запись информации с формы доставки (2 этап)
+- `set contactsInfo: TContactsInfo` - запись информации с формы контактной информации (3 этап)
 - `getOrderData(): ICustomer` - возвращение готового результата.
 
 #### Класс SuccessData
@@ -317,7 +317,7 @@ yarn build
 Расширяет класс View. Является абстрактным классом дженериком и шаблоном для форм приложения. Реализует пользовательский функционал с формами.  
 
 Поля:
-- `protected container: HTMLFormElement` - соответсвующая форма
+- `protected container: HTMLFormElement` - соответствующая форма
 - `protected inputsList: HTMLInputElement[]` - массив input элементов формы
 - `protected submitButton: HTMLButtonElement` - кнопка отправки формы
 - `protected _errorMessage: HTMLSpanElement` - html элемент для отображения ошибок формы.
@@ -385,7 +385,14 @@ yarn build
 ### Слой коммуникации
 
 #### Класс AppApi
-Расширяет класс Api и предоставляет методы реализующие взаимодействие с бэкендом сервиса.  
+Расширяет класс Api и предоставляет методы реализующие взаимодействие с бэкендом сервиса.
+
+Поля
+- `protected cdn: string` - базовый путь до изображений карточек, передаваемый в конструкторе. 
+
+Параметры в конструкторе:
+- параметры `Api`
+- `cdn: string` - базовый путь до изображений карточек.
 
 Методы, геттеры и сеттеры:
 - `getProducts(): Promise<IProduct[]>` - получает с сервера массив объектов всех товаров

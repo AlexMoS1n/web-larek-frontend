@@ -19,7 +19,7 @@ export class ProductsData extends Model implements IProductsData {
     return this._products;
   }
    
-  getProduct(id: string):IProduct | undefined {
+  getProduct(id: string) {
     return this._products.find((product) => {
      return (product.id === id)
     })
