@@ -32,7 +32,7 @@ const templateContacts = ensureElement<HTMLTemplateElement>('#contacts');
 const templateSuccess = ensureElement<HTMLTemplateElement>('#success');
 
 //Создаем необходимые экземпляры классов EventEmitter и AppApi
-const appappi = new AppApi(CDN_URL, API_URL);
+const api = new AppApi(CDN_URL, API_URL);
 const events = new EventEmitter();
 
 //Создаем необходимые экземпляры классов слоя модели
@@ -52,7 +52,7 @@ const success = new Success(cloneTemplate(templateSuccess), events);
 
 //Обработаем события изменения данных 
 //получение данных о продуктах с сервера
-appappi.getProducts().then((data) => {
+api.getProducts().then((data) => {
   productsData.products = data
 }).catch(console.error)
 
@@ -121,18 +121,19 @@ events.on('modal-order:open', () => {
 
 //обработаем взаимодействие пользователя с полями формы доставки
 events.on('order:valid', () => {
-  formOrder.valid = formOrder.valid 
+  formOrder.valid = formOrder.valid;
+  orderDataBuilder.deliveryInfo = {payment: formOrder.payment, address: formOrder.address}
 });
 
 //после заполнения формы доставки и записи для заказа соответствующих данных для заказа, переходи к форме контактных данных: обработаем данное событие
 events.on(`order:submit`, () => {
-  orderDataBuilder.deliveryInfo = {payment: formOrder.payment, address: formOrder.address};
   modal.render({content: formContacts.render({valid: formContacts.valid})})
 });
 
 //обработаем взаимодействие пользователя с полями формы контактных данных
 events.on('contacts:valid', () => {
-  formContacts.valid = formContacts.valid 
+  formContacts.valid = formContacts.valid;
+  orderDataBuilder.contactsInfo = {email: formContacts.email, phone: formContacts.phone};
 });
 
 /*
@@ -140,9 +141,8 @@ events.on('contacts:valid', () => {
 получаем от сервера данные, записываем их и очищаем корзину и формы: обработаем данное событие
 */
 events.on('contacts:submit', () => {
-  orderDataBuilder.contactsInfo = {email: formContacts.email, phone: formContacts.phone};
   const order = orderDataBuilder.getOrderData().customerInfo;
-  appappi.postOrder(order).then((data: TSuccessData) => {
+  api.postOrder(order).then((data: TSuccessData) => {
     successData.orderSuccess = data;
     formOrder.clear();
     formContacts.clear();
