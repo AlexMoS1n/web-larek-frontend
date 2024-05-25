@@ -182,7 +182,7 @@ yarn build
 - параметры `Model`.
 
 Методы, геттеры и сеттеры:
-`set orderSuccess (value: TSuccessData): void` - запись данных оформленного заказа, поступающие с сервера.
+- `set orderSuccess (value: TSuccessData): void` - запись данных оформленного заказа, поступающие с сервера.
 
 ### Слой представления - View
 
