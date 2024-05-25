@@ -110,8 +110,8 @@ yarn build
 - параметры `Model`. 
 
 Методы, геттеры и сеттеры:
-- `set products(value: IProduct[]): void` - записывает массив продуктов, добавленных в корзину
-- `get products(): IProduct[]` - возвращает массив продуктов, добавленных в корзину
+- `set products(value: IProduct[]): void` - записывает массив продуктов в _products
+- `get products(): IProduct[]` - возвращает массив продуктов _products
 - `getProduct(id: string): IProduct` - находит товар по id и возвращает его.
 
 #### Класс BasketData
