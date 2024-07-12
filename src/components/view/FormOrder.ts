@@ -51,15 +51,16 @@ export class FormOrder extends Form<TFormOrder> implements IFormOrder {
   }
 
   get valid() {
-    if(!(super.valid) && Boolean(this.payment)) {
+    const isPayment = Boolean(this.payment);
+    if(!(super.valid) && isPayment) {
       this.errorMessage ='';
       return false
     }
-    else if ((super.valid) && Boolean(this.payment)) {
+    else if ((super.valid) && isPayment ) {
       this.errorMessage = 'Заполните поле адреса';
       return true
     }
-    else if ((super.valid) && !Boolean(this.payment)) {
+    else if ((super.valid) && !isPayment) {
       this.errorMessage = 'Выберите способ оплаты и заполните поле адреса';
       return true
     }

@@ -22,7 +22,9 @@ export class FormContacts extends Form<TFormContacts> implements IFormContacts {
   }
 
   get valid() {
-    if(Boolean(this.inputEmail.value) && Boolean(this.inputPhone.value)) {
+    const isInputEmail = Boolean(this.inputEmail.value);
+    const isInputPhone = Boolean(this.inputPhone.value);
+    if(isInputEmail && isInputPhone) {
       this.errorMessage ='';
       return false
     }
@@ -30,11 +32,11 @@ export class FormContacts extends Form<TFormContacts> implements IFormContacts {
       this.errorMessage ='Заполните поля эл. почты и телефона';
       return true
     }
-    else if(!Boolean(this.inputEmail.value) && Boolean(this.inputPhone.value)) {
+    else if(!isInputEmail && isInputPhone) {
       this.errorMessage ='Заполните поле эл. почты';
       return true
     }
-    else if(Boolean(this.inputEmail.value) && !Boolean(this.inputPhone.value)) {
+    else if(isInputEmail && !isInputPhone) {
       this.errorMessage ='Заполните поле телефона';
       return true
     }
