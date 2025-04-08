@@ -2,6 +2,7 @@
   "name": "my-webpack-project",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Mosin A.S.",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.21.5",
